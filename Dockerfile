@@ -1,4 +1,4 @@
-FROM node:8.11.4
+FROM node:8
 
 # Install Cypress dependencies
 RUN apt-get update && \
@@ -9,7 +9,10 @@ RUN apt-get update && \
     libnss3 \
     libxss1 \
     libasound2 \
-    xvfb
+    xvfb \
+    python-dev \
+    zip \
+    jq
 
 # Get necessary repositories and dependencies for yarn
 RUN apt-get update && apt-get install -y apt-transport-https && \
@@ -19,6 +22,13 @@ RUN apt-get update && apt-get install -y apt-transport-https && \
 # Install the latest yarn and alias it
 RUN apt-get update && apt-get install -y yarn && \
     echo "alias yarn='/usr/bin/yarn'" >> ~/.bashrc
+
+# Get pip
+RUN curl -O https://bootstrap.pypa.io/get-pip.py
+
+# Install pip and AWS EB CLI
+RUN python get-pip.py
+RUN pip install awscli
 
 # Change current time zone to Europe/Helsinki Time zone
 RUN date && \
