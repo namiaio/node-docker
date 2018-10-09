@@ -28,7 +28,7 @@ RUN curl -O https://bootstrap.pypa.io/get-pip.py
 
 # Install pip and AWS EB CLI
 RUN python get-pip.py
-RUN pip install awscli
+RUN pip install awsebcli
 
 # Change current time zone to Europe/Helsinki Time zone
 RUN date && \
