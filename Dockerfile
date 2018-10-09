@@ -32,6 +32,9 @@ RUN pip install --upgrade pip \
         awsebcli \
         awscli
 
+# Expose credentials volume
+RUN mkdir ~/.aws
+
 # Change current time zone to Europe/Helsinki Time zone
 RUN date && \
     cp -f /usr/share/zoneinfo/Europe/Helsinki /etc/localtime && \
