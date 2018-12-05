@@ -31,6 +31,9 @@ RUN python get-pip.py
 RUN pip install --upgrade pip \
         awsebcli \
         awscli
+        
+# Install sentry-cli
+RUN curl -sL https://sentry.io/get-cli/ | bash
 
 # Expose credentials volume
 RUN mkdir ~/.aws
