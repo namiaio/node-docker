@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:14
 
 # Install Cypress dependencies
 RUN apt-get update && \
@@ -25,13 +25,15 @@ RUN apt-get update && apt-get install -y yarn && \
     yarn config set @namia:registry https://verdaccio.namia.io
 
 # Get pip
-RUN curl -O https://bootstrap.pypa.io/get-pip.py
+# This was "https://bootstrap.pypa.io/get-pip.py" but it caused this error:
+# ERROR: This script does not work on Python 2.7 The minimum supported Python version is 3.6. Please use https://bootstrap.pypa.io/pip/2.7/get-pip.py instead
+RUN curl -O https://bootstrap.pypa.io/pip/2.7/get-pip.py
 
 # Install pip and AWS EB CLI
 RUN python get-pip.py
 RUN pip install --upgrade pip \
         awsebcli \
-        awscli
+        awscli botocore==1.19.63
 
 # Install sentry-cli
 RUN curl -sL https://sentry.io/get-cli/ | bash
