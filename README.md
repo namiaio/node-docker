@@ -12,7 +12,7 @@ docker image ls
 docker build --tag namiaio/node-docker:tagname .
 ```
 
-- The tag can be for example like `namiaio/node-docker:1.1`
+- The tag can be for example like `namiaio/node-docker:1.3`
 
 ## Push new version to DockerHub
 

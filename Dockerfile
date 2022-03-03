@@ -30,10 +30,11 @@ RUN apt-get update && apt-get install -y yarn && \
 RUN curl -O https://bootstrap.pypa.io/pip/2.7/get-pip.py
 
 # Install pip and AWS EB CLI
+# https://forums.aws.amazon.com/thread.jspa?messageID=987041&tstart=0
 RUN python get-pip.py
 RUN pip install --upgrade pip \
-        awsebcli \
-        awscli botocore==1.19.63
+        awsebcli==3.19.4 \
+        awscli botocore
 
 # Install sentry-cli
 RUN curl -sL https://sentry.io/get-cli/ | bash
