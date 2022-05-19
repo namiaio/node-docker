@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:16
 
 # Install Cypress dependencies
 RUN apt-get update && \
