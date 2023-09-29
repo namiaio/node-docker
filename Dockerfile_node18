@@ -16,7 +16,7 @@ RUN apt-get install -y \
     libxtst6 \
     xauth \
     xvfb \
-    python-dev \
+    python-dev-is-python3 \
     zip \
     jq
 
@@ -34,9 +34,18 @@ RUN apt-get update && apt-get install -y yarn && echo "alias yarn='/usr/bin/yarn
 # Install pip and AWS EB CLI
 # https://forums.aws.amazon.com/thread.jspa?messageID=987041&tstart=0
 # RUN python get-pip.py
-RUN pip install --upgrade pip \
-    awsebcli==3.20.6 \
-    awscli botocore
+# RUN pip install --upgrade pip \
+#     awsebcli==3.20.9 \
+#     awscli botocore
+# RUN python3 -m pip install --upgrade pip
+# RUN python3 -m pip install --user awscli awsebcli --upgrade
+
+# Install AWS CLI v2
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
+RUN rm -rf awscliv2.zip
+RUN rm -rf aws
 
 # Install sentry-cli
 RUN curl -sL https://sentry.io/get-cli/ | bash
