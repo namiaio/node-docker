@@ -1,0 +1,46 @@
+FROM nikolaik/python-nodejs:python3.11-nodejs20
+
+# Install Cypress dependencies
+RUN apt-get update
+RUN apt-get install -y \
+    libgtk2.0-0 \
+    libgtk-3-0 \
+    libgbm-dev \
+    libnotify-dev \
+    libgconf-2-4 \
+    libnss3 \
+    libxss1 \
+    libasound2 \
+    libxtst6 \
+    xauth \
+    xvfb \
+    python-dev-is-python3 \
+    zip \
+    jq
+
+# Get necessary repositories and dependencies for yarn
+RUN apt-get update && apt-get install -y apt-transport-https && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+# Install the latest yarn, alias it and register proprietary registry
+RUN apt-get update && apt-get install -y yarn && echo "alias yarn='/usr/bin/yarn'" >>~/.bashrc && yarn config set @namia:registry https://verdaccio.namia.io
+
+# Install AWS CLI v2
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
+RUN rm -rf awscliv2.zip
+RUN rm -rf aws
+
+# Install sentry-cli
+RUN curl -sL https://sentry.io/get-cli/ | bash
+
+# Expose credentials volume
+RUN mkdir ~/.aws
+
+# Change current time zone to Europe/Helsinki Time zone
+RUN date && cp -f /usr/share/zoneinfo/Europe/Helsinki /etc/localtime && date
+
+# Versions of local tools
+RUN node -v
+RUN npm -v
+RUN yarn -v
